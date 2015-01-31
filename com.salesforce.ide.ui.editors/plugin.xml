@@ -110,7 +110,38 @@
               </partitionType>
            </contentTypeIdentifier>
         </validator>
-</extension>
+	</extension>
+
+	<!--   B I N D I N G S  -->
+	<extension point="org.eclipse.ui.commands">
+      <command
+            description="Format the freaking Apex code"
+            id="com.salesforce.ide.ui.editors.action.FormatApexCodeAction"
+            name="Format the freaking apex code"
+            categoryId="myjjcat">
+      </command>
+       <category
+        id="myjjcat"
+        name="Jerome My Category" 
+        description="jerome My Category description">
+  		</category>
+   	</extension>
+   	<extension point="org.eclipse.ui.contexts">
+		<context
+			name="jerome context name"
+			description="jerome context description"
+			id="org.eclipse.ui.textEditorScope"
+			parentId="org.eclipse.ui.textEditorScope">
+		</context>
+	</extension>
+	<extension point="org.eclipse.ui.bindings">
+		<key 
+			commandId="com.salesforce.ide.ui.editors.action.FormatApexCodeAction"
+			sequence="Ctrl+Shift+F"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			contextId="org.eclipse.ui.textEditorScope"
+			/>
+	</extension>
 
 
 	

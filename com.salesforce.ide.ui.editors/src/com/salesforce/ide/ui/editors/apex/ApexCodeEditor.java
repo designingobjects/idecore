@@ -78,6 +78,7 @@ import com.salesforce.ide.core.internal.utils.Utils;
 import com.salesforce.ide.core.project.ForceProjectException;
 import com.salesforce.ide.ui.ForceIdeUIPlugin;
 import com.salesforce.ide.ui.editors.ForceIdeEditorsPlugin;
+import com.salesforce.ide.ui.editors.actions.FormatApexCodeAction;
 import com.salesforce.ide.ui.editors.apex.outline.ApexContentOutlinePage;
 import com.salesforce.ide.ui.editors.apex.outline.OutlineViewDispatcher;
 import com.salesforce.ide.ui.editors.apex.preferences.PreferenceConstants;
@@ -99,6 +100,7 @@ public class ApexCodeEditor extends TextEditor implements IShowInSource {
     private static final String ACTION_DEFINE_FOLDING_REGION = "DefineFoldingRegion";
     private static final String ACTION_CONTENT_ASSIST_TIP = "ContentAssistTip";
     private static final String ACTION_CONTENT_ASSIST_PROPOSAL = "ContentAssistProposal";
+	private static final String ACTION_CODE_FORMAT  = "ApexCodeFormat";
 
     protected final static char[] BRACKETS = { '{', '}', '(', ')', '[', ']', '<', '>' };
 
@@ -169,6 +171,14 @@ public class ApexCodeEditor extends TextEditor implements IShowInSource {
                 new DefineFoldingRegionAction(EditorMessages.getResourceBundle(),
                         "ApexEditor.DefineFoldingRegion.", this); //$NON-NLS-1$
         setAction(ACTION_DEFINE_FOLDING_REGION, action);
+        
+        logger.info("JEROME ApexCodeEditor.createAcdtions creating action");
+        action =
+                new FormatApexCodeAction(EditorMessages.getResourceBundle(),
+                        "ApexEditor.Formatter.", this, getSourceViewer()); //$NON-NLS-1$
+        setAction(ACTION_CODE_FORMAT, action);
+        
+        
     }
 
     /**
@@ -341,6 +351,7 @@ public class ApexCodeEditor extends TextEditor implements IShowInSource {
         try {
             apexSourceViewerConfiguration = new ApexSourceViewerConfiguration(getPreferenceStore(), this);
             apexSourceViewerConfiguration.init(project);
+            apexSourceViewerConfiguration.setFormatter(getSourceViewer());
             setSourceViewerConfiguration(apexSourceViewerConfiguration);
         } catch (ForceProjectException e) {
             logger.error("Unable to initialize source viewer configuration", e);
